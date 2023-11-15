@@ -3,50 +3,48 @@
 
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Users</title>
 </head>
 
-<body>
-<style type="text/css">
-    * {
-        color: black;
-        margin: 0 auto;
-        padding: 10px;
-        text-align: center;
-        font-size: 20px;
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-    }
+<body class="container mt-5">
+<h1 class="text-center mb-4">Users table</h1>
 
-    .link {
-        text-decoration: none;
-        box-shadow: 6px 6px 2px 1px black;
-        cursor: pointer;
-    }
-</style>
-
-<h1> Users table </h1>
-<table>
+<table class="table">
+    <thead>
     <tr>
-        <th>Id</th>
-        <th>UserName</th>
-        <th>Password</th>
-        <th>Email</th>
+        <th scope="col">Id</th>
+        <th scope="col">UserName</th>
+        <th scope="col">Password</th>
+        <th scope="col">Email</th>
+        <th scope="col">Actions</th>
     </tr>
+    </thead>
     <tbody>
     <tr th:each="user: ${users}">
-        <td th:text="${user.id}">
-        <td th:text="${user.username}">
-        <td th:text="${user.password}">
-        <td th:text="${user.email}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.password}"></td>
+        <td th:text="${user.email}"></td>
         <td>
-            <a class="link" th:href="@{/admin/user/{id}(id=${user.getId()})}"> VIEW USER </a>
+            <a class="btn btn-primary" th:href="@{/admin/user/{id}(id=${user.id})}">Edit User</a>
+        </td>
+        <td>
+            <form th:method="POST" th:action="@{/admin/delete/{id}(id=${user.getId()})}">
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
         </td>
     </tr>
     </tbody>
 </table>
-<br>
-<a class="link" href="/admin/new"> Create new user</a>
-<a class="link" th:href="@{/logout}">Logout</a>
+
+<a class="btn btn-success" href="/admin/new">Create new user</a>
+<a class="btn btn-danger" th:href="@{/logout}">Logout</a>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
 </html>
