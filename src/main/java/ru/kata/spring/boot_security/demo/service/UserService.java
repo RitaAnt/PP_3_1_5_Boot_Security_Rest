@@ -5,7 +5,7 @@ import ru.kata.spring.boot_security.demo.entities.User;
 
 import java.util.List;
 
-public interface AdminService {
+public interface UserService {
     User getUserById(long id);
 
     User getUserByName(String name);

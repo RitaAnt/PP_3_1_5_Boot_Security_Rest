@@ -12,14 +12,14 @@ import java.util.List;
 
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class UserServiceImpl implements UserService {
     @PersistenceContext
     private EntityManager entityManager;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public AdminServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
