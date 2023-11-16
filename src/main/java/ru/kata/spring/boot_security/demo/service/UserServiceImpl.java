@@ -4,54 +4,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.dao.UserDao;
 import ru.kata.spring.boot_security.demo.entities.User;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao;
+
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userDao = userDao;
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
     public User getUserById(long id) {
-        return userDao.getUserById(id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
     public User getUserByName(String name) {
-        return userDao.getUserByName(name);
+        return userRepository.findByUsername(name);
     }
 
     @Override
     public List<User> getUsers() {
-        return userDao.getUsers();
+        return userRepository.findAll();
     }
 
     @Override
     @Transactional
     public void addUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userDao.addUser(user);
+        userRepository.save(user);
     }
 
     @Override
     @Transactional
     public void deleteUser(long userId) {
-        userDao.deleteUser(userId);
+        userRepository.deleteById(userId);
     }
 
     @Override
     @Transactional
     public void updateUser(long id, User user) {
-        User existingUser = userDao.getUserById(id);
+        User existingUser = userRepository.findById(id).orElse(null);
         if (existingUser != null) {
             existingUser.setUsername(user.getUsername());
             existingUser.setEmail(user.getEmail());
@@ -62,5 +63,4 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
-
 }
