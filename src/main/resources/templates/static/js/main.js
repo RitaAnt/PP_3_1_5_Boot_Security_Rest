@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 var cellEmail = row.insertCell(3);
                 cellEmail.innerHTML = user.email;
 
-
+//
             });
         })
         .catch(error => console.error("Error fetching users:", error));
