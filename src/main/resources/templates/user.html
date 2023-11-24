@@ -11,7 +11,7 @@
 <body class="container mt-5">
 <h1>
     <span>Welcome to the site,</span>
-    <small th:text="${user.getUsername()}">Subtitle</small>
+    <small id="username" class="h6">Subtitle</small>
 </h1>
 
 <table class="table">
@@ -20,16 +20,16 @@
         <th scope="col" class="h5">Your email</th>
     </tr>
     <tr>
-        <td><p th:text="${user.getId()}" class="h6"> VALUE </p></td>
-        <td><p th:text="${user.getEmail()}" class="h6"> VALUE </p></td>
+        <td><p id="userId" class="h6">VALUE</p></td>
+        <td><p id="userEmail" class="h6">VALUE</p></td>
     </tr>
 </table>
 
 <br/>
 <div class="d-flex">
-    <a class="btn btn-primary mr-2" th:href="@{/admin/user/{id}/edit (id=${user.getId()})}">Edit</a>
-    <form th:method="POST" th:action="@{/admin/delete/{id}(id=${user.getId()})}" class="d-inline">
-        <input type="hidden" name="_method" value="DELETE"/>
+    <a class="btn btn-primary mr-2" id="editButton" th:href="@{'/admin/user/' + ${user.getId()} + '/edit'}">Edit</a>
+    <form id="deleteForm" th:method="POST" th:action="@{'/admin/delete/' + ${user.getId()}}" class="d-inline">
+    <input type="hidden" name="_method" value="DELETE"/>
         <button class="btn btn-danger" type="submit">Delete</button>
     </form>
 </div>
@@ -46,6 +46,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script src="/static/js/user.js"></script>
 </body>
 
 </html>
