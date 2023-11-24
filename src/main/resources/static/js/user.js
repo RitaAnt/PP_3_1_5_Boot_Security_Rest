@@ -1,3 +1,6 @@
+//Работает корректно по ссылке api/admin/users/${userId}
+//Работает не корректно по ссылке api/user
+
 document.addEventListener("DOMContentLoaded", () => {
     // Получите идентификатор пользователя из текущего URL, предположим, что он в конце URL.
     const userId = window.location.pathname.split("/").pop();
