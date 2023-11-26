@@ -1,5 +1,3 @@
-//Вывести роли
-
 document.addEventListener("DOMContentLoaded", () => {
     const userTable = document.getElementById("userTableBody");
 
