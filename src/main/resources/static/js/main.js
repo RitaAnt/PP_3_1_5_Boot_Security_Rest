@@ -29,11 +29,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 cellEdit.innerHTML = `<a class="btn btn-primary" href="/admin/user/${user.id}/edit">Edit</a>`;
 
                 var cellDelete = row.insertCell(6);
-                cellDelete.innerHTML = `<form method="POST" action="/admin/delete/${user.id}">
-                                          <input type="hidden" name="_method" value="DELETE"/>
-                                          <button type="submit" class="btn btn-danger">Delete</button>
-                                      </form>`;
+                cellDelete.innerHTML = `<button type="button" class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>`;
             });
         })
         .catch(error => console.error("Error fetching users:", error));
 });
+
+function deleteUser(userId) {
+    if (confirm("Are you sure you want to delete this user?")) {
+        fetch(`/api/admin/users/${userId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Refresh the user table after successful deletion
+                    document.dispatchEvent(new Event('DOMContentLoaded'));
+                } else {
+                    console.error("Failed to delete user:", response.statusText);
+                }
+            })
+            .catch(error => console.error("Error deleting user:", error));
+    }
+}
