@@ -1,30 +1,22 @@
-//Работает корректно по ссылке api/admin/users/${userId}
-//Работает не корректно по ссылке api/user
-
 document.addEventListener("DOMContentLoaded", () => {
-
-    const userId = window.location.pathname.split("/").pop();
-
-    fetch(`/api/admin/users/${userId}`)
-        .then(response => response.json())
+    fetch("/api/user")  // Изменил путь на /api/user
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(user => {
+            // Проверка, что user - это объект
+            if (typeof user !== 'object') {
+                throw new Error('Invalid JSON response');
+            }
+
             console.log(user);
 
-
-            document.getElementById("username").innerText = user.username;
-            document.getElementById("userId").innerText = user.id;
-            document.getElementById("userEmail").innerText = user.email;
-
-
-            const editButton = document.getElementById("editButton");
-            if (editButton) {
-                editButton.href = `/admin/user/${user.id}/edit`;
-            }
-
-            const deleteForm = document.getElementById("deleteForm");
-            if (deleteForm) {
-                deleteForm.action = `/admin/delete/${user.id}`;
-            }
+            document.getElementById("username").textContent = user.username;
+            document.getElementById("userId").textContent = user.id;
+            document.getElementById("userEmail").textContent = user.email;
         })
         .catch(error => console.error("Error fetching user:", error));
 });
