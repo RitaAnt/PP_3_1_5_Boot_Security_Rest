@@ -1,12 +1,12 @@
 //Не показывает роли
 
-// Получение CSRF-токена и заполнение скрытого поля
+
 var csrfToken = document.querySelector('meta[name="_csrf"]').content;
 document.getElementById('csrfToken').value = csrfToken;
 
-// Получение ролей и заполнение контейнера rolesContainer
+
 var rolesContainer = document.getElementById('rolesContainer');
-var listRoles = /* ваш массив ролей на JavaScript */ [];
+var listRoles = [];
 
 listRoles.forEach(function (role) {
     var checkbox = document.createElement('input');
@@ -25,7 +25,6 @@ listRoles.forEach(function (role) {
     rolesContainer.appendChild(label);
 });
 
-// Функция для отправки формы
 function submitForm() {
     document.getElementById('userForm').submit();
 }
