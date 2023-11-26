@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +25,13 @@ public class UserController {
 
     @GetMapping("/api/user")
     @ResponseBody
-    public User showUser(Model model, Principal principal) {
+    public ResponseEntity<User> showUser(Principal principal) {
         User user = userService.getUserByName(principal.getName());
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            return ResponseEntity.notFound().build();
         }
-        return user;
+        return ResponseEntity.ok(user);
     }
+
 
 }
