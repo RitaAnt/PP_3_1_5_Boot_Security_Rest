@@ -37,12 +37,14 @@ public class AdminRestController {
     }
 
     @PutMapping("/users/{id}")
-    public void updateUser(@PathVariable long id, @RequestBody User user) {
+    public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody User user) {
         userService.updateUser(id, user);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 }

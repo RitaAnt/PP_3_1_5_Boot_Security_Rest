@@ -27,10 +27,9 @@ public class UserController {
     @ResponseBody
     public ResponseEntity<User> showUser(Principal principal) {
         User user = userService.getUserByName(principal.getName());
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(user);
+        return user != null ?
+                ResponseEntity.ok(user) :
+                ResponseEntity.notFound().build();
     }
 
 
