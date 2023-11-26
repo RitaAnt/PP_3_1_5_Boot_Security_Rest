@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cellEmail.innerHTML = user.email;
 
                 var cellEdit = row.insertCell(4);
-                cellEdit.innerHTML = `<a class="btn btn-primary" href="/admin/user/${user.id}">Edit</a>`;
+                cellEdit.innerHTML = `<a class="btn btn-primary" href="/admin/user/${user.id}">Profile</a>`;
 
                 var cellDelete = row.insertCell(5);
                 cellDelete.innerHTML = `<form method="POST" action="/admin/delete/${user.id}">
