@@ -16,8 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 label.classList.add('form-check-label');
                 label.innerText = role.name;
 
-                rolesContainer.appendChild(checkbox);
-                rolesContainer.appendChild(label);
+                // Change the container class for each checkbox and label to form-check
+                var formCheck = document.createElement('div');
+                formCheck.classList.add('form-check');
+                formCheck.appendChild(checkbox);
+                formCheck.appendChild(label);
+
+                rolesContainer.appendChild(formCheck);
             });
         })
         .catch(error => console.error("Error fetching roles:", error));
