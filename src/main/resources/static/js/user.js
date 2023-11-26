@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("/api/user")  // Изменил путь на /api/user
+    fetch("/api/user")
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json();
         })
         .then(user => {
-            // Проверка, что user - это объект
             if (typeof user !== 'object') {
                 throw new Error('Invalid JSON response');
             }
