@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -37,13 +37,13 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private List<Role> roles;
 
 
     public User() {
     }
 
-    public User(long id, String username, String password, String email, Collection<Role> roles) {
+    public User(long id, String username, String password, String email, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -51,11 +51,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -92,7 +92,7 @@ public class User implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
 
