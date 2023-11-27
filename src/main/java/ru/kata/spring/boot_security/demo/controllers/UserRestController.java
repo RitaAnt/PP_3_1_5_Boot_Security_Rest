@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserRestController {
 
     private final UserService userService;
@@ -19,32 +20,13 @@ public class UserRestController {
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
-
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getUsers();
+    @ResponseBody
+    public ResponseEntity<User> showUser(Principal principal) {
+        User user = userService.getUserByName(principal.getName());
+        return user != null ?
+                ResponseEntity.ok(user) :
+                ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable long id) {
-        return userService.getUserById(id);
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody User user) {
-        userService.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody User user) {
-        userService.updateUser(id, user);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok().build();
-    }
 }
