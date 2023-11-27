@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("/api/roles")
+    fetch("/api/admin/roles")
         .then(response => response.json())
         .then(roles => {
             var rolesContainer = document.getElementById('rolesContainer');
