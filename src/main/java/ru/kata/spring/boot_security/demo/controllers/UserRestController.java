@@ -21,7 +21,6 @@ public class UserRestController {
         this.userService = userService;
     }
     @GetMapping
-    @ResponseBody
     public ResponseEntity<User> showUser(Principal principal) {
         User user = userService.getUserByName(principal.getName());
         return user != null ?
