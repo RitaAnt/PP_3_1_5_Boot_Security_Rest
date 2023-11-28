@@ -32,24 +32,24 @@ public class AdminRestController {
     public List<Role> getAllRoles() {
         return roleService.getListRoles();
     }
-    @GetMapping("/users/{id}")
+    @GetMapping("/user/{id}")
     public User getUserById(@PathVariable long id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/user/new")
     public ResponseEntity<Void> createUser(@RequestBody User user) {
         userService.addUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/user/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody User user) {
         userService.updateUser(id, user);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/user/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().build();
