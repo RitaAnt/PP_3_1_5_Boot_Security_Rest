@@ -24,7 +24,7 @@ public class AdminRestController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public List<User> getAllUsers() {
         return userService.getUsers();
     }
