@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const userTable = document.getElementById("userTableBody");
 
-    fetch("/api/admin/users")
+    fetch("/api/admin/user")
         .then(response => response.json())
         .then(users => {
 
