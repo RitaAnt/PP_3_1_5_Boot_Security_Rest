@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const userTable = document.getElementById("userTableBody");
 
-    fetch("/api/admin/user")
+    fetch("/api/admin/users")
         .then(response => response.json())
         .then(users => {
 
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 cellRoles.innerHTML = user.roles.map(role => role.name).join(', ');
 
                 var cellEdit = row.insertCell(5);
-                cellEdit.innerHTML = `<a class="btn btn-primary" href="/admin/user/${user.id}/edit">Edit</a>`;
+                cellEdit.innerHTML = `<a class="btn btn-primary" href="/api/admin/user/${user.id}/edit">Edit</a>`;
 
                 var cellDelete = row.insertCell(6);
                 cellDelete.innerHTML = `<button type="button" class="btn btn-danger" onclick="deleteUser(${user.id})">Delete</button>`;
