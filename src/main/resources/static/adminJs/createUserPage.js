@@ -5,11 +5,11 @@ form_new.addEventListener('submit', addNewUser);
 
 async function addNewUser(event) {
     event.preventDefault();
-    const urlNew = 'api/admins/newAddUser';
+    const urlNew = '/api/admins/newAddUser';  // Обратите внимание на начальный слэш
     let listOfRole = [];
     for (let i = 0; i < role_new.length; i++) {
         listOfRole.push({
-            id:role_new[i].value
+            id: role_new[i].value
         });
     }
     let method = {
@@ -23,8 +23,15 @@ async function addNewUser(event) {
             password: form_new.password.value,
             roles: listOfRole
         })
-    }
-    await fetch(urlNew,method).then(() => {
+    };
+
+    try {
+        const response = await fetch(urlNew, method);
+        if (!response.ok) {
+            throw new Error(`Server returned ${response.status} ${response.statusText}`);
+        }
+
+        // Ваш код обработки успешного ответа
         form_new.reset();
         getAdminPage();
         var triggerTabList = [].slice.call(document.querySelectorAll('#Admin_panel-tab a'))
@@ -36,12 +43,14 @@ async function addNewUser(event) {
                 tabTrigger.show()
             })
         })
-        var triggerEl = document.querySelector('#Admin_panel-tab a[href="#user_table"]')
-        bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name
-    });
-
+        var triggerEl = document.querySelector('#Admin_panel-tab a[href="#user_table"]');
+        if (triggerEl) {
+            var tabInstance = bootstrap.Tab.getInstance(triggerEl);
+            if (tabInstance) {
+                tabInstance.show();
+            }
+        }
+    } catch (error) {
+        console.error('Произошла ошибка при выполнении запроса:', error.message);
+    }
 }
-
-
-
-

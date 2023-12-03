@@ -2,6 +2,8 @@ const adminurl = '/api/admins';
 
 const currentUser = fetch(adminurl).then(response => response.json())
 currentUser.then(user => {
+    console.log(user)
+    console.log(user[3].roles)
         let roles = ''
         user.roles.forEach(role => {
             roles += ' '

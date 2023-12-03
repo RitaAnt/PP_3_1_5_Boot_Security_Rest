@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -36,22 +37,21 @@ public class AdminRestController {
     }
 
     @PostMapping("/newAddUser")
-    public ResponseEntity<HttpStatus> saveNewUser(@RequestBody User user) {
+    public ResponseEntity<Void> saveNewUser(@RequestBody User user) {
         userService.add(user);
-        return new ResponseEntity<> (HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
-        return new ResponseEntity<> (HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @PatchMapping("/users/{id}")
-    public ResponseEntity<HttpStatus> userSaveEdit(@RequestBody  User user, @PathVariable Long id) {
+    public ResponseEntity<Void> userSaveEdit(@RequestBody User user, @PathVariable Long id) {
         user.setId(id);
         userService.update(user, id);
-        return new ResponseEntity<> (HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
