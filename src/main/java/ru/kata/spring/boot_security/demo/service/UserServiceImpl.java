@@ -66,23 +66,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void update(User user, Long id) {
-        User existingUser = getById(user.getId());
-
-        // Обновляем основные данные пользователя
-        existingUser.setUsername(user.getUsername());
-        existingUser.setEmail(user.getEmail());
-
-        // Обновляем пароль, если он не пустой
-        if (!"".equals(user.getPassword())) {
-            existingUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        User oldUser = getById(user.getId());
+        if (oldUser.getPassword().equals(user.getPassword()) || "".equals(user.getPassword())) {
+            user.setPassword(oldUser.getPassword());
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
-
-        // Обновляем роли пользователя
-        existingUser.setRoles(user.getRoles());
-
-        // Сохраняем обновленного пользователя
-        userRepository.save(existingUser);
-
+        userRepository.save(user);
     }
 
     @Override
