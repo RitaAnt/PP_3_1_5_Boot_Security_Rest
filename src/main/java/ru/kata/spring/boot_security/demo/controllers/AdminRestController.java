@@ -4,54 +4,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
-import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("api/admins")
 public class AdminRestController {
-
     private final UserService userService;
-    private final RoleService roleService;
 
     @Autowired
-    public AdminRestController(UserService userService, RoleService roleService) {
+    public AdminRestController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
+
+    }
+    @GetMapping
+    public ResponseEntity<List<User>> showUsers() {
+
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getUsers();
-    }
-    @GetMapping("/roles")
-    public List<Role> getAllRoles() {
-        return roleService.getListRoles();
-    }
-    @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable long id) {
-        return userService.getUserById(id);
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> showUser(@PathVariable("id") Long id) {
+        return new ResponseEntity<> (userService.getById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<Void> createUser(@RequestBody User user) {
-        userService.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @GetMapping("/userAuth")
+    public ResponseEntity<User> showAuthUser() {
+        return new ResponseEntity<> (userService.getCurrentUser(), HttpStatus.OK);
     }
 
-    @PutMapping("/user/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable long id, @RequestBody User user) {
-        userService.updateUser(id, user);
-        return ResponseEntity.ok().build();
+    @PostMapping("/newAddUser")
+    public ResponseEntity<HttpStatus> saveNewUser(@RequestBody User user) {
+        userService.add(user);
+        return new ResponseEntity<> (HttpStatus.OK);
     }
 
-    @DeleteMapping("/user/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
+        userService.delete(id);
+        return new ResponseEntity<> (HttpStatus.OK);
+    }
+
+
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<HttpStatus> userSaveEdit(@RequestBody  User user, @PathVariable Long id) {
+        user.setId(id);
+        userService.update(user, id);
+        return new ResponseEntity<> (HttpStatus.OK);
     }
 }
