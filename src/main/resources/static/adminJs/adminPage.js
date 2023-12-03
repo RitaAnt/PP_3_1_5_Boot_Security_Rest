@@ -30,8 +30,10 @@ function loadTableData(listAllUser) {
     for (let user of listAllUser) {
         let roles = [];
         for (let role of user.roles) {
-            roles.push(" " + role.name.toString()
-                .replaceAll("ROLE_", ""))
+            if (role.name) {
+                roles.push(" " + role.name.toString()
+                    .replaceAll("ROLE_", ""));
+            }
         }
         dataHtml +=
 `<tr>
