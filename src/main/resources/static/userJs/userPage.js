@@ -27,7 +27,7 @@ function  getInformationAboutUser(user) {
     let dataHtml = '';
     let roles = [];
     console.log('userSata', JSON.stringify(user))
-    for (let role of user.role) {roles
+    for (let role of user.roles) {roles
         roles.push(" " + role.name.toString()
             .replaceAll("ROLE_", ""))
     }
