@@ -54,7 +54,6 @@ async function addNewUser(event) {
         console.error('Произошла ошибка при выполнении запроса:', error.message);
     }
 }
-// Предположим, что у тебя есть элемент с идентификатором "roles"
 const rolesElement = document.getElementById('roles');
 
 
