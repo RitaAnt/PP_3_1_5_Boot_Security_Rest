@@ -8,9 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.List;
@@ -20,20 +18,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @Override
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-    }
 
     @Override
     @Transactional
@@ -53,8 +45,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getByUsername(String firstName) {
-        return Optional.ofNullable(userRepository.findByUsername(firstName));
+    public Optional<User> getByUsername(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username));
     }
 
     @Override
@@ -65,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void update(User user, Long id) {
+    public void update(User user) {
         User oldUser = getById(user.getId());
         if (oldUser.getPassword().equals(user.getPassword()) || "".equals(user.getPassword())) {
             user.setPassword(oldUser.getPassword());

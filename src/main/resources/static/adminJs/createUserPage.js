@@ -1,17 +1,18 @@
 const form_new = document.getElementById('formForNewUser');
-const role_new = document.querySelector('#roles').selectedOptions;
-
+const rolesSelect = document.querySelector('#roles');
 form_new.addEventListener('submit', addNewUser);
 
 async function addNewUser(event) {
     event.preventDefault();
-    const urlNew = '/api/admins/newAddUser';  // Обратите внимание на начальный слэш
+    const urlNew = '/api/admins/newAddUser';
+
     let listOfRole = [];
-    for (let i = 0; i < role_new.length; i++) {
+    for (let i = 0; i < rolesSelect.selectedOptions.length; i++) {
         listOfRole.push({
-            id: role_new[i].value
+            id: rolesSelect.selectedOptions[i].value
         });
     }
+
     let method = {
         method: 'POST',
         headers: {
@@ -31,7 +32,6 @@ async function addNewUser(event) {
             throw new Error(`Server returned ${response.status} ${response.statusText}`);
         }
 
-        // Ваш код обработки успешного ответа
         form_new.reset();
         getAdminPage();
         var triggerTabList = [].slice.call(document.querySelectorAll('#Admin_panel-tab a'))
@@ -54,3 +54,31 @@ async function addNewUser(event) {
         console.error('Произошла ошибка при выполнении запроса:', error.message);
     }
 }
+// Предположим, что у тебя есть элемент с идентификатором "roles"
+const rolesElement = document.getElementById('roles');
+
+
+async function getRoles() {
+    try {
+        const response = await fetch('/api/admins/getRoles');
+        if (!response.ok) {
+            throw new Error(`Server returned ${response.status} ${response.statusText}`);
+        }
+
+        const roles = await response.json();
+
+        rolesElement.innerHTML = '';
+
+        roles.forEach(role => {
+            const option = document.createElement('option');
+            option.value = role.id;
+            option.text = role.name;
+            rolesElement.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Произошла ошибка при получении ролей:', error.message);
+    }
+}
+
+getRoles();
+

@@ -55,9 +55,6 @@ public class User implements UserDetails {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 
     public long getId() {
         return id;
@@ -67,6 +64,7 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    @Override
     public String getUsername() {
         return username;
     }

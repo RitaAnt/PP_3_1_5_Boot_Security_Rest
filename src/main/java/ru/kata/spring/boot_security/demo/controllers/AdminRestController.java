@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.List;
@@ -13,12 +15,19 @@ import java.util.List;
 @RequestMapping("api/admins")
 public class AdminRestController {
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminRestController(UserService userService) {
+    public AdminRestController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
 
     }
+    @GetMapping("/getRoles")
+    public List<Role> getRoles() {
+        return roleService.getListRoles();
+    }
+
     @GetMapping
     public ResponseEntity<List<User>> showUsers() {
 
@@ -50,7 +59,7 @@ public class AdminRestController {
     @PatchMapping("/users/{id}")
     public ResponseEntity<Void> userSaveEdit(@RequestBody User user, @PathVariable Long id) {
         user.setId(id);
-        userService.update(user, id);
+        userService.update(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
